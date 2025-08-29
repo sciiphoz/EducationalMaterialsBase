@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
+    public function showMainPage() 
+    {
+        $materials = Material::all();
+        return view('pages.main', compact('materials'));
+    }
+
     public function index()
     {
         $materials = Material::where('isPrivate', false)
@@ -80,7 +86,7 @@ class MaterialController extends Controller
         return redirect()->route('materials.show', $material);
     }
 
-    public function destroy(Material $material)
+    public function delete(Material $material)
     {
         $this->authorize('delete', $material);
         $material->delete();
