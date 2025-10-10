@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tag extends Model
 {
+    use HasFactory;
+    protected $table = "tag";
     protected $fillable = ['name'];
-
-    public function materials(): BelongsToMany
-    {
-        return $this->belongsToMany(Material::class, 'material_tag', 'id_tag', 'id_material');
-    }
 }

@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
+    use HasFactory;
     protected $primaryKey = 'id_tag';
     public $timestamps = false;
 
     protected $fillable = ['name'];
 
-    public function materials(): BelongsToMany
+    public function material()
     {
-        return $this->belongsToMany(Material::class, 'material_tag', 'id_tag', 'id_material');
+        return $this->belongsToMany(Material::class);
     }
 }

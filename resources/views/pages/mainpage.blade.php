@@ -4,16 +4,12 @@
         @forelse($materials as $material)
             <div class="content">
                 <p class="content-date">{{ $material->date }}</p>
-                <a href="product.html"><p class="content-name">{{ $material->title }}</p></a>
+                <a href="product.html"><p class="content-name">{{ $material->name }}</p></a>
                 <div class="content-tag">
-                    <p class="tag-name">{{ $material->tag->text }}</p>
+                    <p class="tag-name">{{ $material->tag->name }}</p>
                 </div>
                 <p class="content-text">{{ $material->text }}</p>
                 
-                <form action="{{ route('open.full', $material->id) }}" method="post">
-                    @csrf
-                    <button type="button" class="content-button">Подробнее</button>
-                </form>
 
                 @auth
                     <div class="content-ui">

@@ -30,24 +30,24 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     
-    public function role(): BelongsTo
+    public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class);
     }
 
-    public function materials(): HasMany
+    public function material()
     {
-        return $this->hasMany(Material::class, 'id_user');
+        return $this->hasMany(Material::class);
     }
 
-    public function comments(): HasMany
+    public function comment()
     {
-        return $this->hasMany(Comment::class, 'id_user');
+        return $this->hasMany(Comment::class);
     }
 
-    public function likes(): HasMany
+    public function like()
     {
-        return $this->hasMany(Like::class, 'id_user');
+        return $this->hasMany(Like::class);
     }
 
     public function isAdmin(): bool
