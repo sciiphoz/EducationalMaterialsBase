@@ -9,19 +9,7 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding-top: 40px;
-        }
-        .card {
-            border-radius: 10px;
-            border: none;
-        }
-        .card-header {
-            border-radius: 10px 10px 0 0 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
 <body>

@@ -1,0 +1,1022 @@
+/* Сброс базовых стилей */
+* {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Mont', sans-serif;
+    scroll-behavior: smooth;
+}
+
+@font-face {
+    font-family: 'Mont';
+    src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
+}
+
+a {
+    color: inherit;
+}
+
+body {
+    background-color: #1A202C;
+}
+
+/* Общий контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Заголовок страницы */
+.container h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+    padding: 30px 0px 20px 0px;
+}
+
+/* Сетка для всех продуктов */
+.product_all {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Основной блок продукта */
+.product_main {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center ;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product_main:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Изображение продукта */
+.product_main img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Название продукта */
+.product_name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Цена продукта */
+.product_price {
+    font-size: 1.1em;
+    color: #0066cc;
+    margin-bottom: 15px;
+}
+
+/* Кнопка "Подробнее" */
+.button {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #004999;
+}
+
+.header {
+    background-color: #2D3748;
+    color: #fff;
+
+    border-bottom: solid 3px #242A37;
+}
+
+.header .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    padding: 20px 0;
+}
+
+.header-nav {
+    font-family: 'Montserrat-Regular', sans-serif;
+    font-size: 1em;
+    color: #fff;
+
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.header-logo {
+    font-family: 'Montserrat-Bold', sans-serif;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 100px;
+}
+
+.header-user {
+    font-family: 'Montserrat-Regular', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.logout-button {
+    height: max-content;
+    cursor: pointer;
+}
+
+/* Content */
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    background-color: #2D3748;
+    
+    width: 75%;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.content-date {
+    color: #fff;
+
+    font-size: 14px;
+}
+
+.content-name {
+    font-size: 28px;
+    color: #35B56B;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.content-tag {
+    color: #81E6D9;
+    border: solid 1px #81E6D9;
+    border-radius: 4px;
+    padding: 3px 6px;
+
+    font-size: 14px;
+
+    width: fit-content;
+}
+
+.content-text {
+    color: #fff;
+}
+
+.content-button {
+    width: fit-content;
+    padding: 4px 6px;
+    
+    font-size: 16px;
+    font-weight: bold;
+    color: #2D3748;
+    background-color: #35B56B;
+    
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.content-button:hover {
+    width: fit-content;
+    padding: 4px 6px;
+    
+    font-size: 16px;
+
+    color: #35B56B;
+    background-color: transparent;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.content-ui {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    justify-content: left;
+
+    gap: 30px;
+}
+
+.ui-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+
+    gap: 15px;
+}
+
+.ui-items .ui-like, .ui-dislike, .ui-edit {
+    width: 35px;
+    cursor: pointer;
+}
+
+.ui-comment {
+    width: 35px;
+    cursor: pointer;
+}
+
+.ui-score {
+    font-size: 16px;
+    font-weight: bold;
+    color: #35B56B;
+}
+
+/* Comment section */
+
+.comment-section {
+    background-color: #2D3748;
+    
+    margin-top: 40px;
+    width: 75%;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.comment-section h4 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.comment-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-user {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.comment-user .comment-name {
+    font-size: 20px;
+    color: #fff;
+}
+
+.comment-text {
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Навигация */
+.nav {
+    display: flex;
+}
+
+/* Страница товара */
+.product-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.5em;
+    color: #0066cc;
+}
+
+.product-description {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.button {
+    padding: 15px 20px;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.product_buttons{
+    display: flex;
+    gap: 15px;
+}
+
+.button.add-to-cart{
+    background-color: #28a745;
+}
+
+.button.add-to-cart:hover {
+    background-color: #218838;
+}
+
+.button.delete{
+    background-color: #df0101;
+}
+
+
+/* Контейнер формы регистрации */
+.registration-form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #2D3748;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.registration-form h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Стили полей формы */
+.registration-form label {
+    display: block;
+    font-weight: medium;
+    color: #cbcbcb;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.registration-button {
+    width: fit-content;
+    height: max-content;
+    padding: 10px 20px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #242A37;
+    background-color: #35B56B;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.registration-button[type="submit"] {
+    margin: 20px 0px 10px 0;
+}
+
+.registration-button:hover {
+    padding: 10px 20px;
+    
+    font-size: 16px;
+
+    color: #35B56B;
+    background-color: transparent;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+/* Кнопка отправки формы */
+.button {
+    padding: 12px 20px;
+    background-color: #0066cc;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    border: none;
+}
+
+.button:hover {
+    background-color: #004999;
+}
+
+/* Ссылка на страницу входа */
+.login-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.login-link a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* Контейнер формы авторизации */
+.login-form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #2D3748;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-form h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Стили полей формы */
+.login-form label {
+    display: block;
+    color: #cbcbcb;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-button {
+    width: fit-content;
+    height: max-content;
+    padding: 10px 20px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #242A37;
+    background-color: #35B56B;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.login-button[type="submit"] {
+    margin: 20px 0px 10px 0px;
+}
+
+.login-button:hover {
+    padding: 10px 20px;
+    
+    font-size: 16px;
+
+    color: #35B56B;
+    background-color: transparent;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+/* Ссылки на регистрацию и восстановление пароля */
+.register-link,
+.forgot-password {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.register-link a,
+.forgot-password a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.register-link a:hover,
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Контейнер формы добавления товара */
+.add-product-form {
+    max-width: 75%;
+    margin: auto;
+    padding: 20px;
+    background-color: #2D3748;
+    color: #fff;
+    text-align: center;
+}
+
+.add-product-form h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Стили полей формы */
+.add-product-form label {
+    display: block;
+    color: #fff;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form input[type="file"],
+.add-product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.button {
+    padding: 12px 20px;
+    background-color: #0066cc;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    border: none;
+}
+
+.button:hover {
+    background-color: #004999;
+}
+
+.material-settings {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    padding-bottom: 20px;
+}
+
+.settings-item {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-item label {
+    margin: 0;
+}
+
+.settings-item select {
+    font-size: 16px;
+    padding: 4px 6px;
+}
+
+
+.settings-item input {
+    width: 20px;
+    height: 20px;
+
+    color: #218838;
+}
+
+.edit-product-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-product-form h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Стили полей формы */
+.edit-product-form label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.edit-product-form input[type="text"],
+.edit-product-form input[type="number"],
+.edit-product-form input[type="file"],
+.edit-product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.delete-button {
+    width: fit-content;
+    height: max-content;
+    padding: 10px 20px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #242A37;
+    background-color: #D53737;
+
+    border: solid 1px #D53737;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.delete-button:hover {
+    padding: 10px 20px;
+    
+    font-size: 16px;
+
+    color: #D53737;
+    background-color: transparent;
+
+    border: solid 1px #D53737;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.profile {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 50px;
+
+    margin-bottom: 60px;
+}
+
+.profile hr {
+    width: 75%;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 30px;
+}
+
+.profile-icon {
+    width: 35%;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info p {
+    font-size: 26px;
+    margin-bottom: 0px;
+    color: #fff;
+}
+
+.logout-button {
+    width: fit-content;
+    height: max-content;
+    padding: 10px 20px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #242A37;
+    background-color: #D53737;
+
+    border: solid 1px #D53737;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+    padding: 10px 20px;
+    
+    font-size: 16px;
+
+    color: #D53737;
+    background-color: transparent;
+
+    border: solid 1px #D53737;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.create-button {
+    width: 150px;
+    height: max-content;
+    padding: 6px 0px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #1A202C;
+    background-color: #35B56B;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.create-button:hover {
+    padding: 6px 0px;
+    
+    font-size: 16px;
+
+    color: #35B56B;
+    background-color: transparent;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.end-create-button {
+    width: fit-content;
+    height: max-content;
+    padding: 10px 20px;
+    align-self: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #242A37;
+    background-color: #35B56B;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.end-create-button:hover {
+    padding: 10px 20px;
+    
+    font-size: 16px;
+
+    color: #35B56B;
+    background-color: transparent;
+
+    border: solid 1px #35B56B;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.logout {
+    background-color: #d9534f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.logout:hover {
+    background-color: #c9302c;
+}
+
+@media screen and (max-width: 1024px) {
+    .comment-section h4 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .comment-user .comment-name {
+        font-size: 16px;
+        color: #fff;
+    }
+    
+    .comment-text {
+        font-size: 16px;
+        color: #fff;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .profile-icon {
+        width: 30%;
+    }
+
+    .profile-info p {
+        font-size: 22px;
+    }
+
+    .content-name {
+        font-size: 24px;
+    }
+
+    .ui-items .ui-like, .ui-dislike, .ui-edit {
+        width: 30px;
+    }
+    
+    .ui-comment {
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .content {
+        width: 100%;
+    }
+
+    .comment-section {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .profile hr {
+        width: 100%;
+    }
+
+    .profile {
+        margin-top: 20px;
+    
+        gap: 30px;
+    
+        margin-bottom: 30px;
+    }
+
+    .profile-icon {
+        width: 25%;
+    }
+
+    .profile-info p {
+        font-size: 20px;
+    }
+
+    .ui-edit {
+        display: none;
+    }
+
+    .create-button {
+        display: none;
+    }
+
+    .header-logo {
+        margin-left: 20px;
+    }
+
+    .header-user img {
+        display: none;
+    }
+
+    .content {
+        gap: 30px;
+    }
+
+    .content-button {
+        padding: 8px 12px;
+    }
+}

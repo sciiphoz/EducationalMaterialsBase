@@ -1,28 +1,31 @@
-<header class="bg-light shadow-sm">
-    <nav class="navbar navbar-expand-lg navbar-light container">
-        <a class="navbar-brand" href="{{ url('/') }}">NEWS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('view.login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('view.register') }}">Register</a>
-                    </li>
-                @endguest
-                @auth
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link">Logout</button>
-                        </form>
-                    </li>
-                @endauth
-            </ul>
-        </div>
-    </nav>
+<header class="header">
+    <div class="container">
+        @guest
+            <div class="header-nav">
+                <a href="index.html">Главная</a>
+            </div>
+            <div class="header-logo">
+                <a href="#">лого</a>
+            </div>
+            <div class="header-user">
+                <a class="registration-button" href="{{ route('view.login') }}">Login</a>
+            </div>
+            <div class="header-user">
+                <a class="login-button" href="{{ route('view.register') }}">Register</a>
+            </div>
+        @endguest
+        @auth
+            <div class="header-nav">
+                <form method="POST" action="{{ route('view.mainpage') }}">
+                    Home
+                </form>
+            </div>
+            <div class="header-logo">
+                <img src="" alt="search">
+                <form method="POST" action="{{ route('view.profilepage') }}">
+                    Profile
+                </form>
+            </div>
+        @endauth
+    </div>
 </header>

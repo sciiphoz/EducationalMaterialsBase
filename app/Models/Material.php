@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Material extends Model
 {
+    protected $table = 'material';
     protected $primaryKey = 'id_material';
     public $incrementing = false;
     protected $keyType = 'string';

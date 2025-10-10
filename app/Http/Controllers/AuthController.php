@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         if(auth()->attempt($data)){
             $request->session()->regenerate();
-            return redirect()->route('view.profile');
+            return redirect()->route('view.mainpage');
         }
 
         return back()->withErrors([

@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
 
-Route::get('/', [MaterialController::class, 'showMainPage'])->name('view.main');
+Route::get('/', [MaterialController::class, 'showMainPage'])->name('view.mainpage');
 
 Route::middleware('check.guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('view.register');

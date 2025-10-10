@@ -11,7 +11,7 @@ class MaterialController extends Controller
     public function showMainPage() 
     {
         $materials = Material::all();
-        return view('pages.main', compact('materials'));
+        return view('pages.mainpage', compact('materials'));
     }
 
     public function index()
