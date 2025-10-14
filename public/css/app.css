@@ -9,13 +9,19 @@
     scroll-behavior: smooth;
 }
 
-@font-face {
+/* @font-face {
     font-family: 'Mont';
     src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
-}
+} */
 
 a {
     color: inherit;
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -117,6 +123,16 @@ body {
     padding: 20px 0;
 }
 
+.header-ui {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
 .header-nav {
     font-family: 'Montserrat-Regular', sans-serif;
     font-size: 1em;
@@ -124,15 +140,6 @@ body {
 
     cursor: pointer;
     margin-left: 20px;
-}
-
-.header-logo {
-    font-family: 'Montserrat-Bold', sans-serif;
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    margin-left: 100px;
 }
 
 .header-user {
@@ -261,6 +268,14 @@ body {
     cursor: pointer;
 }
 
+.ui-dislike.active-dislike {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(89%) saturate(4154%) hue-rotate(353deg) brightness(95%) contrast(97%);
+}
+
+.ui-like.active-like {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(64%) saturate(523%) hue-rotate(104deg) brightness(93%) contrast(89%);
+}
+
 .ui-comment {
     width: 35px;
     cursor: pointer;
@@ -269,7 +284,21 @@ body {
 .ui-score {
     font-size: 16px;
     font-weight: bold;
+}
+
+.ui-score.negative-score {
+    color: #df0101;
+}
+.ui-score.neutral-score {
+    color: #fff;
+}
+.ui-score.positive-score {
     color: #35B56B;
+}
+
+.ui-submit_button {
+    border: none;
+    background-color: transparent;
 }
 
 /* Comment section */
@@ -401,6 +430,11 @@ body {
     background-color: #df0101;
 }
 
+.empty-text {
+    color: #fff;
+    font-size: 24px;
+    padding: 10%;
+}
 
 /* Контейнер формы регистрации */
 .registration-form {

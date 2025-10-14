@@ -21,6 +21,6 @@ class CheckAdmin
             }
         }
 
-        return redirect()->route('view.main');
+        return redirect()->route('view.mainpage');
     }
 }

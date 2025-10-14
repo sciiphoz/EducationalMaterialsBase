@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Like extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_like';
-    public $timestamps = false;
 
     protected $fillable = [
-        'id_material',
-        'id_user'
+        'value',
+        'material_id',
+        'user_id'
     ];
 
     public function user()

@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Comment extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_tag';
-    public $timestamps = false;
-
-    protected $fillable = ['name'];
+    protected $fillable = ['text', 'user_id', 'material_id'];
 
     public function material()
     {
-        return $this->belongsToMany(Material::class);
+        return $this->belongsTo(Material::class);
+    }
+        public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

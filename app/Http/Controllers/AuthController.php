@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,13 +16,13 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->validate( [
-            'login' => 'required|string|max:255',
+        $credentials = $request->validate( [
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create($data);
+        User::create($credentials);
 
         return redirect()->route('view.login');
     }
@@ -35,14 +34,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if(auth()->attempt($data)){
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('view.mainpage');
+            return redirect('/');
         }
 
         return back()->withErrors([

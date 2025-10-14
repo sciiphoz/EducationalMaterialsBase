@@ -11,17 +11,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Material extends Model
 {
     use HasFactory;
-    protected $table = 'material';
-    protected $fillable = ['name', 'text', 'date', 'rating', 'isPrivate', 'id_user', 'id_tag'];
-
-    protected $casts = [
-        'isPrivate' => 'boolean',
-        'date' => 'datetime'
-    ];
+    protected $fillable = ['title', 'text', 'date', 'isPrivate', 'user_id', 'tag_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+        public function tag()
+    {
+        return $this->belongsTo(Tag::class);
     }
 
     public function comment()
@@ -34,8 +33,5 @@ class Material extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function tag()
-    {
-        return $this->belongsTo(Tag::class, 'id_tag', 'id_tag');
-    }
+
 }

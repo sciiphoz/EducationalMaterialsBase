@@ -7,9 +7,9 @@
         <form action="{{ route('register') }}" method="post" >
             @csrf
 
-                <label for="login">Имя пользователя</label>
-                <input id="login" type="text" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}" required autocomplete="login" autofocus>
-                @error('login')
+                <label for="name">Имя пользователя</label>
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

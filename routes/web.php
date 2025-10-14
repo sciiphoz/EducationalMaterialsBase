@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-
 
 Route::get('/', [MaterialController::class, 'showMainPage'])->name('view.mainpage');
 
@@ -20,10 +20,12 @@ Route::middleware('check.guest')->group(function () {
 Route::middleware('check.auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::resource('materials', MaterialController::class)->except(['index', 'show']);
-    
-    Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
     Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
+
+    Route::post('/material/{id}/like', [LikeController::class, 'addLike'])->name('add.like');
+    Route::post('/material/{id}/dislike', [LikeController::class, 'addDislike'])->name('add.dislike');
+    Route::post('/materials/{material}/comment', [MaterialController::class, 'addComment'])->name('add.comment');
+
 
     Route::get('/material/add', [MaterialController::class, 'add'])->name('material.create');
     Route::get('/material/delete/{material}', [MaterialController::class, 'delete'])->name('material.delete');
@@ -38,7 +40,7 @@ Route::middleware('check.admin')->group(function () {
     
     Route::resource('users', UserController::class)->except(['show']);
     
-    Route::get('/materials', [AdminController::class, 'materials'])->name('materials.index');
     Route::delete('/materials/{material}', [AdminController::class, 'destroyMaterial'])->name('materials.destroy');
     Route::put('/materials/{material}', [AdminController::class, 'updateMaterial'])->name('materials.update');
 });
+    

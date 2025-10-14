@@ -14,10 +14,9 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     
     protected $fillable = [
-        'login',
+        'name',
         'email',
-        'password',
-        'id_role'
+        'password'
     ];
 
     protected $hidden = [
@@ -29,11 +28,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
 
     public function material()
     {
@@ -48,10 +42,5 @@ class User extends Authenticatable
     public function like()
     {
         return $this->hasMany(Like::class);
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role->name === 'admin';
     }
 }

@@ -11,13 +11,14 @@ class MaterialController extends Controller
     public function showMainPage() 
     {
         $materials = Material::all();
+        $materials = Material::with(['like', 'tag'])->get();
         return view('pages.mainpage', compact('materials'));
     }
 
     public function index()
     {
         $materials = Material::where('isPrivate', false)
-            ->with(['user', 'tags'])
+            ->with(['users', 'tags'])
             ->latest()
             ->paginate(10);
 
@@ -27,7 +28,7 @@ class MaterialController extends Controller
     public function show(Material $material)
     {
         return view('materials.show', [
-            'material' => $material->load('tag', 'comment.user')
+            'material' => $material->load('tags', 'comment.user')
         ]);
     }
 

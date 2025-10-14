@@ -19,6 +19,6 @@ class CheckAuth
             return $next($request);
         }
 
-        return redirect()->route('view.profile');
+        return redirect()->route('view.mainpage');
     }
 }

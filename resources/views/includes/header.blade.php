@@ -1,30 +1,32 @@
 <header class="header">
     <div class="container">
         @guest
-            <div class="header-nav">
-                <a href="index.html">Главная</a>
-            </div>
-            <div class="header-logo">
-                <a href="#">лого</a>
-            </div>
-            <div class="header-user">
-                <a class="registration-button" href="{{ route('view.login') }}">Login</a>
-            </div>
-            <div class="header-user">
-                <a class="login-button" href="{{ route('view.register') }}">Register</a>
+            <div class="header-ui">
+                <div class="header-nav">
+                    <a href="{{ route('view.mainpage') }}"">Главная</a>
+                </div>
+                <div class="header-user">
+                    <a class="registration-button" href="{{ route('view.login') }}">Войти</a>
+
+                    <a class="login-button" href="{{ route('view.register') }}">Зарегистрироваться</a>
+                </div>
             </div>
         @endguest
+        
         @auth
             <div class="header-nav">
-                <form method="POST" action="{{ route('view.mainpage') }}">
-                    Home
-                </form>
+                <a href="{{ route('view.mainpage') }}"">Главная</a>
             </div>
-            <div class="header-logo">
-                <img src="" alt="search">
-                <form method="POST" action="{{ route('view.profilepage') }}">
-                    Profile
-                </form>
+            <div class="header-user">
+                @if (request()->routeIs('profile.show'))
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>
+                @else
+                    <img src="{{ asset('img/user.png') }}" alt="user">
+                    <a href="{{ route('profile.show') }}">{{ auth()->user()->name }}</a>
+                @endif
             </div>
         @endauth
     </div>
