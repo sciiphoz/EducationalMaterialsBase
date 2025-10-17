@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('text');
             $table->date('date');
-            $table->integer('isPrivate');
+            $table->boolean('isPrivate')->default(false);
+            $table->boolean('isDisabled')->default(false);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

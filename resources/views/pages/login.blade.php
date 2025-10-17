@@ -23,7 +23,7 @@
                 </span>
             @enderror
 
-            <button type="submit" class="login-button">
+            <button type="submit" class="login-button" >
                 Войти
             </button>
         </form>

@@ -3,35 +3,55 @@
     <div class="container">
         <div class="add-product-form">
             <h1>Создание</h1>
-            <form action="" method="post" enctype="multipart/form-data">
+            
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{ route('material.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                
                 <div class="material-settings">
                     <div class="settings-item">
-                        <label for="tag">Тег</label>
-                        <select name="tag" id="tag">
-                            <option value="1">длинный тег</option>
-                            <option value="2">тег</option>
-                            <option value="3">тег</option>
-                            <option value="4">тег</option>
+                        <label for="tag_id">Тег</label>
+                        <select name="tag_id" id="tag_id" required>
+                            <option value="">Выберите тег</option>
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}" {{ old('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    {{ $tag->title }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="settings-item">
-                        <label for="private">Приватный?</label>
-                        <input type="checkbox" name="private" id="private"></input>
+                        <label for="isPrivate">Приватный?</label>
+                        <input type="checkbox" name="isPrivate" id="isPrivate" value="1" {{ old('isPrivate') ? 'checked' : '' }}>
                     </div>
 
                     <div class="settings-item">
-                        <label for="disable-comments">Запретить комментарии?</label>
-                        <input type="checkbox" name="disable-comments" id="disable-comments"></input>
+                        <label for="isDisabled">Запретить комментарии?</label>
+                        <input type="checkbox" name="isDisabled" id="isDisabled" value="1" {{ old('isDisabled') ? 'checked' : '' }}>
                     </div>
                 </div>
 
-
-                <label for="name">Название</label>
-                <input type="text" id="name" name="name" required>
+                <label for="title">Название</label>
+                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
 
                 <label for="text">Текст</label>
-                <textarea id="text" name="text" rows="16" required></textarea>
+                <textarea id="text" name="text" rows="16" required>{{ old('text') }}</textarea>
 
                 <button type="submit" class="end-create-button">Добавить материал</button>
             </form>

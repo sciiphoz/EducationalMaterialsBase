@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LikeController;
@@ -20,15 +21,18 @@ Route::middleware('check.guest')->group(function () {
 Route::middleware('check.auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
+    Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('material.show');
 
     Route::post('/material/{id}/like', [LikeController::class, 'addLike'])->name('add.like');
     Route::post('/material/{id}/dislike', [LikeController::class, 'addDislike'])->name('add.dislike');
-    Route::post('/materials/{material}/comment', [MaterialController::class, 'addComment'])->name('add.comment');
+    Route::post('/material/{id}/comment', [CommentController::class, 'addComment'])->name('add.comment');
 
+    Route::get('/material/create', [MaterialController::class, 'create'])->name('material.create');
+    Route::post('/material/store', [MaterialController::class, 'store'])->name('material.store');
 
-    Route::get('/material/add', [MaterialController::class, 'add'])->name('material.create');
-    Route::get('/material/delete/{material}', [MaterialController::class, 'delete'])->name('material.delete');
+    Route::get('/material/{id}/edit', [MaterialController::class, 'edit'])->name('material.edit');
+    Route::put('/material/{id}', [MaterialController::class, 'update'])->name('material.update');
+    Route::delete('/material/{id}', [MaterialController::class, 'destroy'])->name('material.destroy');
     
     Route::get('/profile', [UserController::class, 'showProfile'])->name('profile.show');
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');

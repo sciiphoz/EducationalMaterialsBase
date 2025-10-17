@@ -24,7 +24,7 @@
 
             <div class="content">
                 <p class="content-date">{{ $material->date }}</p>
-                <a href="{{ route('materials.show', $material->id) }}"><p class="content-name">{{ $material->title }}</p></a>
+                <a href="{{ route('material.show', $material->id) }}"><p class="content-name">{{ $material->title }}</p></a>
                 <div class="content-tag">
                     <p class="tag-name">{{ $material->tag->title ?? 'Без тега' }}</p>
                 </div>
@@ -44,7 +44,7 @@
                                 <img class="ui-dislike {{ $userLikeValue == -1 ? 'active-dislike' : '' }}" src="{{ asset('img/dislike.png') }}" alt="dislike">
                             </button>
                         </form>
-                        <form action="{{ route('materials.update', $material->id) }}" method="post">
+                        <form action="{{ route('material.edit', $material->id) }}" method="get">
                             @csrf
                             <button class="ui-submit_button" type="submit">
                                 <img class="ui-edit" src="{{ asset('img/edit.png') }}" alt="edit">

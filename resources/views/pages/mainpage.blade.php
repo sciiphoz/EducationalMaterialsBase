@@ -1,11 +1,56 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
-
 @extends('template.app')
 @section('content')
 @csrf
     <div class="page-content">
+        <div class="search-filters">
+            <form action="{{ route('view.mainpage') }}" method="GET" class="search-form">
+                <div class="search-row">
+                    <div class="search-group">
+                        <input type="text" name="search" value="{{ request('search') }}" 
+                               placeholder="Поиск по названию..." class="search-input">
+                        <button type="submit" class="search-button">
+                            <img src="{{ asset('img/search.png') }}" alt="search" class="search-icon">
+                        </button>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sort">Сортировка:</label>
+                        <select name="sort" id="sort" onchange="this.form.submit()">
+                            <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Сначала новые</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Сначала старые</option>
+                            <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>По популярности</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="tag">Фильтр по тегам:</label>
+                            <select name="tag" id="tag" onchange="this.form.submit()">
+                                <option value="">Все теги</option>
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}" {{ request('tag') == $tag->id ? 'selected' : '' }}>
+                                        {{ $tag->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        @if(request()->hasAny(['search', 'sort', 'tag']))
+                            <a href="{{ route('view.mainpage') }}" class="reset-filters">Сбросить фильтры</a>
+                        @endif
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+
+        @if(request('search') && $materials->count() > 0)
+            <div class="search-results-info">
+                Найдено материалов: {{ $materials->total() }}
+            </div>
+        @endif
+
         @forelse($materials as $material)
             @php
                 $likesum = $material->like->sum('value');
@@ -14,12 +59,14 @@
                 $userLike = auth()->check() ? $material->like->where('user_id', auth()->id())->first() : null;
                 $userLikeValue = $userLike ? $userLike->value : 0;
                 
-                $previewText = Str::limit($material->text, 450, '...');
+                $previewText = Str::limit($material->text, 150, '...');
             @endphp
             
             <div class="content">
                 <p class="content-date">{{ $material->date }}</p>
-                <a href="product.html"><p class="content-name">{{ $material->title }}</p></a>
+                <a href="{{ route('material.show', $material->id) }}">
+                    <p class="content-name">{{ $material->title }}</p>
+                </a>
                 <div class="content-tag">
                     <p class="tag-name">{{ $material->tag->title ?? 'Без тега' }}</p>
                 </div>
@@ -52,7 +99,21 @@
                 @endauth
             </div>
         @empty
-            <h4 class="empty-text">Статей ещё нет</h4>
+            <div class="empty-results">
+                @if(request('search') || request('tag'))
+                    <h4 class="empty-text">По вашему запросу ничего не найдено</h4>
+                    <p>Попробуйте изменить параметры поиска или <a href="{{ route('view.mainpage') }}">сбросить фильтры</a></p>
+                @else
+                    <h4 class="empty-text">Статей ещё нет</h4>
+                @endif
+            </div>
         @endforelse
+
+        {{-- Пагинация --}}
+        @if($materials->hasPages())
+            <div class="pagination">
+                {{ $materials->links() }}
+            </div>
+        @endif
     </div>
 @endsection

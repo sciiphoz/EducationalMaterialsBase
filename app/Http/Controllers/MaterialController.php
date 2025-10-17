@@ -5,92 +5,131 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MaterialController extends Controller
 {
-    public function showMainPage() 
+    public function showMainPage(Request $request) 
     {
-        $materials = Material::all();
-        $materials = Material::with(['like', 'tag'])->get();
-        return view('pages.mainpage', compact('materials'));
+        $query = Material::with(['like', 'tag'])
+            ->public() // Только публичные материалы
+            ->withCount(['like as likes_sum' => function($query) {
+                $query->select(DB::raw('COALESCE(SUM(value), 0)'));
+            }]);
+
+        // Поиск по названию
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        // Фильтр по тегу
+        if ($request->has('tag') && $request->tag != '') {
+            $query->where('tag_id', $request->tag);
+        }
+
+        // Сортировка
+        switch ($request->get('sort', 'newest')) {
+            case 'oldest':
+                $query->orderBy('date', 'asc');
+                break;
+            case 'popular':
+                $query->orderBy('likes_sum', 'desc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('date', 'desc');
+                break;
+        }
+
+        $materials = $query->paginate(10); // Пагинация по 10 материалов
+        $tags = Tag::all(); // Все теги для фильтра
+
+        return view('pages.mainpage', compact('materials', 'tags'));
     }
 
-    public function index()
+    public function show($id)
     {
-        $materials = Material::where('isPrivate', false)
-            ->with(['users', 'tags'])
-            ->latest()
-            ->paginate(10);
-
-        return view('materials.index', compact('materials'));
-    }
-
-    public function show(Material $material)
-    {
-        return view('materials.show', [
-            'material' => $material->load('tags', 'comment.user')
-        ]);
+        $material = Material::with([
+        'like', 
+        'tag', 
+        'comment.user' 
+        ])->findOrFail($id);
+        
+        return view('pages.material', compact('material'));
     }
 
     public function create()
     {
-        $this->authorize('create', Material::class);
         $tags = Tag::all();
-        return view('materials.create', compact('tags'));
+        return view('pages.add_material', compact('tags'));
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create', Material::class);
-
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'isPrivate' => 'boolean',
-            'tags' => 'array',
-            'tags.*' => 'exists:tags,id_tag',
+            'title' => 'required|string|max:255',
+            'text' => 'required|string',
+            'tag_id' => 'required|exists:tags,id',
+            'isPrivate' => 'sometimes|boolean',
+            'isDisabled' => 'sometimes|boolean',
         ]);
 
-        $material = Material::create([
-            'id_material' => uniqid(),
-            'name' => $validated['name'],
-            'isPrivate' => $validated['isPrivate'] ?? false,
-            'id_user' => auth()->id(),
-            'date' => now(),
+        Material::create([
+            'title' => $validated['title'],
+            'text' => $validated['text'],
+            'tag_id' => $validated['tag_id'],
+            'isPrivate' => $request->has('isPrivate'),
+            'isDisabled' => $request->has('isDisabled'),
+            'user_id' => Auth::id(),
+            'date' => now()->format('Y-m-d'),
         ]);
 
-        $material->tags()->attach($validated['tags'] ?? []);
-
-        return redirect()->route('materials.show', $material);
+        return redirect()->route('profile.show')->with('success', 'Материал успешно создан!');
     }
 
-    public function edit(Material $material)
+    public function edit($id)
     {
-        $this->authorize('update', $material);
+        $material = Material::where('user_id', auth()->id())->findOrFail($id);
         $tags = Tag::all();
-        return view('materials.edit', compact('material', 'tags'));
+        
+        return view('pages.edit_material', compact('material', 'tags'));
     }
 
-    public function update(Request $request, Material $material)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $material);
+        $material = Material::where('user_id', auth()->id())->findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'isPrivate' => 'boolean',
-            'tags' => 'array',
-            'tags.*' => 'exists:tags,id_tag',
+            'title' => 'required|string|max:255',
+            'text' => 'required|string',
+            'tag_id' => 'required|exists:tags,id',
+            'isPrivate' => 'sometimes|boolean',
+            'isDisabled' => 'sometimes|boolean',
         ]);
 
-        $material->update($validated);
-        $material->tags()->sync($validated['tags'] ?? []);
+        $material->update([
+            'title' => $validated['title'],
+            'text' => $validated['text'],
+            'tag_id' => $validated['tag_id'],
+            'isPrivate' => $request->has('isPrivate'),
+            'isDisabled' => $request->has('isDisabled'),
+        ]);
 
-        return redirect()->route('materials.show', $material);
+        return redirect()->route('profile.show')->with('success', 'Материал успешно обновлен!');
     }
 
-    public function delete(Material $material)
+    public function destroy($id)
     {
-        $this->authorize('delete', $material);
+        $material = Material::where('user_id', auth()->id())->findOrFail($id);
+        
+        // Удаляем связанные лайки и комментарии
+        $material->like()->delete();
+        $material->comment()->delete();
+        
         $material->delete();
-        return redirect()->route('materials.index');
+
+        return redirect()->route('profile.show')->with('success', 'Материал успешно удален!');
     }
 }

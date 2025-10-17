@@ -55,7 +55,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,7 +97,7 @@ body {
 .button {
     padding: 10px 20px;
     background-color: #0066cc;
-    color: #fff;
+    color: #ddd;
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9em;
@@ -110,7 +110,7 @@ body {
 
 .header {
     background-color: #2D3748;
-    color: #fff;
+    color: #ddd;
 
     border-bottom: solid 3px #242A37;
 }
@@ -136,7 +136,7 @@ body {
 .header-nav {
     font-family: 'Montserrat-Regular', sans-serif;
     font-size: 1em;
-    color: #fff;
+    color: #ddd;
 
     cursor: pointer;
     margin-left: 20px;
@@ -145,7 +145,7 @@ body {
 .header-user {
     font-family: 'Montserrat-Regular', sans-serif;
     font-size: 1em;
-    color: #fff;
+    color: #ddd;
     
     display: flex;
     flex-direction: row;
@@ -171,6 +171,176 @@ body {
     align-items: center;
 }
 
+/* Стили для поиска и фильтров */
+.search-filters {
+    width: 75%;
+    background: #2D3748;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.search-form {
+    width: 100%;
+}
+
+.search-row {
+    display: flex;
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    display: flex;
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-button {
+    background: #35B56B;
+    border: 1px solid #35B56B;
+    border-radius: 0 4px 4px 0;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    color: #ddd;
+    font-weight: 500;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.reset-filters {
+    color: #e74c3c;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #e74c3c;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.reset-filters:hover {
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+}
+
+.search-results-info {
+    background: #e3f2fd;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    color: #1976d2;
+    font-weight: 500;
+}
+
+.empty-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-results .empty-text {
+    margin-bottom: 15px;
+}
+
+.empty-results a {
+    color: #35B56B;
+    text-decoration: none;
+}
+
+.empty-results a:hover {
+    text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.pagination nav {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination .page-link {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #35B56B;
+}
+
+.pagination .page-item.active .page-link {
+    background: #35B56B;
+    border-color: #35B56B;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background: #f8f9fa;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-group {
+        min-width: auto;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group select {
+        min-width: auto;
+    }
+}
+
 .content {
     background-color: #2D3748;
     
@@ -180,10 +350,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    margin-bottom: 10px;
 }
 
 .content-date {
-    color: #fff;
+    color: #ddd;
 
     font-size: 14px;
 }
@@ -208,7 +380,7 @@ body {
 }
 
 .content-text {
-    color: #fff;
+    color: #ddd;
 }
 
 .content-button {
@@ -290,7 +462,7 @@ body {
     color: #df0101;
 }
 .ui-score.neutral-score {
-    color: #fff;
+    color: #ddd;
 }
 .ui-score.positive-score {
     color: #35B56B;
@@ -318,7 +490,7 @@ body {
 .comment-section h4 {
     font-size: 22px;
     font-weight: bold;
-    color: #fff;
+    color: #ddd;
 }
 
 .comment-items {
@@ -342,12 +514,70 @@ body {
 
 .comment-user .comment-name {
     font-size: 20px;
-    color: #fff;
+    color: #ddd;
 }
 
 .comment-text {
     font-size: 20px;
-    color: #fff;
+    color: #ddd;
+}
+
+.comment-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.comment-submit-btn {
+    background-color: #35B56B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.comment-submit-btn:hover {
+    background-color: #2a8d55;
+}
+
+.comment-login-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.comment-login-message a {
+    color: #35B56B;
+    text-decoration: none;
+}
+
+.comment-login-message a:hover {
+    text-decoration: underline;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.no-comments {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+.comment-item {
+    padding: 15px 0;
 }
 
 /* Навигация */
@@ -360,7 +590,7 @@ body {
     max-width: 600px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -404,7 +634,7 @@ body {
 
 .button {
     padding: 15px 20px;
-    color: #fff;
+    color: #ddd;
     border-radius: 5px;
     border: none;
     text-align: center;
@@ -431,7 +661,7 @@ body {
 }
 
 .empty-text {
-    color: #fff;
+    color: #ddd;
     font-size: 24px;
     padding: 10%;
 }
@@ -450,7 +680,7 @@ body {
 .registration-form h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
-    color: #fff;
+    color: #ddd;
 }
 
 /* Стили полей формы */
@@ -515,7 +745,7 @@ body {
 .button {
     padding: 12px 20px;
     background-color: #0066cc;
-    color: #fff;
+    color: #ddd;
     border-radius: 5px;
     text-align: center;
     font-size: 1em;
@@ -559,7 +789,7 @@ body {
 .login-form h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
-    color: #fff;
+    color: #ddd;
 }
 
 /* Стили полей формы */
@@ -644,20 +874,20 @@ body {
     margin: auto;
     padding: 20px;
     background-color: #2D3748;
-    color: #fff;
+    color: #ddd;
     text-align: center;
 }
 
 .add-product-form h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
-    color: #fff;
+    color: #ddd;
 }
 
 /* Стили полей формы */
 .add-product-form label {
     display: block;
-    color: #fff;
+    color: #ddd;
     margin-top: 10px;
     text-align: left;
 }
@@ -678,7 +908,7 @@ body {
 .button {
     padding: 12px 20px;
     background-color: #0066cc;
-    color: #fff;
+    color: #ddd;
     border-radius: 5px;
     text-align: center;
     font-size: 1em;
@@ -699,6 +929,8 @@ body {
     align-items: center;
     align-content: center;
     justify-content: space-between;
+
+    background-color: transparent;
 
     padding-bottom: 20px;
 }
@@ -733,7 +965,7 @@ body {
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -837,7 +1069,110 @@ body {
 .profile-info p {
     font-size: 26px;
     margin-bottom: 0px;
-    color: #fff;
+    color: #ddd;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.end-create-button {
+    background-color: #35B56B;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+}
+
+.end-create-button:hover {
+    background-color: #2a8d55;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+.content-actions {
+    margin-top: 10px;
+}
+
+.edit-link {
+    color: #35B56B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.material-settings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+.settings-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-item label {
+    font-weight: 500;
+    color: #ddd;
+}
+
+.settings-item select,
+.settings-item input[type="text"],
+.settings-item textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.settings-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
 }
 
 .logout-button {
@@ -949,7 +1284,7 @@ body {
 
 .logout {
     background-color: #d9534f;
-    color: #fff;
+    color: #ddd;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -964,17 +1299,17 @@ body {
     .comment-section h4 {
         font-size: 20px;
         font-weight: bold;
-        color: #fff;
+        color: #ddd;
     }
 
     .comment-user .comment-name {
         font-size: 16px;
-        color: #fff;
+        color: #ddd;
     }
     
     .comment-text {
         font-size: 16px;
-        color: #fff;
+        color: #ddd;
     }
 }
 
