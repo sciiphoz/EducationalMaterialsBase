@@ -1,4 +1,6 @@
 @extends('template.app')
+@section('title', $material->title)
+@section('description', Str::limit($material->section->first()->content ?? 'Материал по программированию', 160))
 @section('content')
     <div class="page-content">
         @php
@@ -9,14 +11,45 @@
             $userLikeValue = $userLike ? $userLike->value : 0;
         @endphp
 
-        <div class="content">
-            <p class="content-date">{{ $material->date }}</p>
-            <p class="content-name">{{ $material->title }}</p>
-            <div class="content-tag">
-                <p class="tag-name">{{ $material->tag->title ?? 'Без тега' }}</p>
+        <div class="material-content">
+            <h1 class="material-title">{{ $material->title }}</h1>
+            <div class="material-meta">
+                <span class="material-date">{{ $material->date }}</span>
+                <span class="material-tag">{{ $material->tag->title ?? 'Без тега' }}</span>
+                @if($material->isDisabled)
+                    <span class="material-private">🔒 Приватный</span>
+                @endif
             </div>
-            <p class="content-text">{{ $material->text }}</p>
-            
+
+            <div class="material-sections">
+                @foreach($material->section->sortBy('order') as $section)
+                    <div class="section section-{{ $section->type }}">
+                        @if($section->isText())
+                            <div class="text-section">
+                                {!! $section->display_content !!}
+                            </div>
+                        @elseif($section->isCode())
+                            <div class="code-section">
+                                <div class="code-header">
+                                    <span class="code-language">{{ $section->language }}</span>
+                                </div>
+                                <pre><code class="language-{{ $section->language }}">{{ $section->display_content }}</code></pre>
+                            </div>
+                        @elseif($section->isImage())
+                            <div class="image-section">
+                                <img src="{{ $section->image_url }}" 
+                                     alt="{{ $section->image_alt ?? '' }}"
+                                     class="material-image"
+                                     loading="lazy">
+                                @if($section->image_alt)
+                                    <p class="image-caption">{{ $section->image_alt }}</p>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
             @auth
                 <div class="content-ui">
                     <div class="ui-items">
@@ -38,11 +71,12 @@
             @endauth
         </div>
 
-        <div class="comment-section">
-            <h4>Комментарии ({{ $material->comment->count() }})</h4>
+        {{-- Комментарии --}}
+        @if(!$material->isDisabled)
+            <div class="comment-section">
+                <h4>Комментарии ({{ $material->comment->count() }})</h4>
 
-            @auth
-                @if(!$material->isDisabled)
+                @auth
                     <div class="comment-form">
                         <form action="{{ route('add.comment', $material->id) }}" method="POST">
                             @csrf
@@ -53,36 +87,36 @@
                         </form>
                     </div>
                 @else
-                    <div class="comments-disabled">
-                        <p>Комментарии к этому материалу отключены</p>
-                    </div>
-                @endif
-            @else
-                <p class="comment-login-message">
-                    <a href="{{ route('view.login') }}">Войдите</a>, чтобы оставить комментарий
-                </p>
-            @endauth
+                    <p class="comment-login-message">
+                        <a href="{{ route('view.login') }}">Войдите</a>, чтобы оставить комментарий
+                    </p>
+                @endauth
 
-            {{-- Список комментариев --}}
-            <div class="comment-items">
-                @forelse($material->comment as $comment)
-                    <div class="comment-item">
-                        <div class="comment-user">
-                            <img src="{{ asset('img/user.png') }}" alt="icon" class="comment-icon">
-                            <p class="comment-name">{{ $comment->user->name ?? 'Пользователь' }}</p>
+                {{-- Список комментариев --}}
+                <div class="comment-items">
+                    @forelse($material->comment as $comment)
+                        <div class="comment-item">
+                            <div class="comment-user">
+                                <img src="{{ asset('img/user.png') }}" alt="icon" class="comment-icon">
+                                <p class="comment-name">{{ $comment->user->name ?? 'Пользователь' }}</p>
+                            </div>
+                            
+                            <p class="comment-text">{{ $comment->text }}</p>
+                            <p class="comment-date">{{ $comment->created_at->format('d.m.Y H:i') }}</p>
                         </div>
-                        
-                        <p class="comment-text">{{ $comment->text }}</p>
-                        <p class="comment-date">{{ $comment->created_at->format('d.m.Y H:i') }}</p>
-                    </div>
 
-                    @if(!$loop->last)
-                        <hr>
-                    @endif
-                @empty
-                    <p class="no-comments">Комментариев пока нет</p>
-                @endforelse
+                        @if(!$loop->last)
+                            <hr>
+                        @endif
+                    @empty
+                        <p class="no-comments">Комментариев пока нет</p>
+                    @endforelse
+                </div>
             </div>
-        </div>
+        @else
+            <div class="comments-disabled">
+                <p>Комментарии к этому материалу отключены</p>
+            </div>
+        @endif
     </div>
 @endsection

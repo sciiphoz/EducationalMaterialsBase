@@ -1,5 +1,6 @@
 @extends('template.app')
 @section('content')
+@section('title', 'Авторизация')
 <div class="container">
     <div class="login-form">
         <h1>Войти</h1>

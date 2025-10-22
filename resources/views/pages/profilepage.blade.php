@@ -1,4 +1,5 @@
 @extends('template.app')
+@section('title', 'Профиль')
 @section('content')
 
 <div class="container">
@@ -24,7 +25,7 @@
 
             <div class="content">
                 <p class="content-date">{{ $material->date }}</p>
-                <a href="{{ route('material.show', $material->id) }}"><p class="content-name">{{ $material->title }}</p></a>
+                <a href="{{ route('material.show', $material->id) }}"><p class="content-title">{{ $material->title }}</p></a>
                 <div class="content-tag">
                     <p class="tag-name">{{ $material->tag->title ?? 'Без тега' }}</p>
                 </div>

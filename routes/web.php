@@ -39,12 +39,7 @@ Route::middleware('check.auth')->group(function () {
 });
 
 
-Route::middleware('check.admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::middleware('check.admin')->group(function () {    
     
-    Route::resource('users', UserController::class)->except(['show']);
-    
-    Route::delete('/materials/{material}', [AdminController::class, 'destroyMaterial'])->name('materials.destroy');
-    Route::put('/materials/{material}', [AdminController::class, 'updateMaterial'])->name('materials.update');
 });
     

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class Material extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'text', 'date', 'isPrivate', 'isDisabled', 'user_id', 'tag_id'];
+    protected $fillable = ['title', 'date', 'isPrivate', 'isDisabled', 'user_id', 'tag_id'];
 
     protected $casts = [
         'isPrivate' => 'boolean',
@@ -24,7 +24,7 @@ class Material extends Model
         return $this->belongsTo(User::class);
     }
 
-        public function tag()
+    public function tag()
     {
         return $this->belongsTo(Tag::class);
     }
@@ -37,6 +37,11 @@ class Material extends Model
     public function like()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function section()
+    {
+        return $this->hasMany(Section::class);
     }
 
     public function scopePublic($query)

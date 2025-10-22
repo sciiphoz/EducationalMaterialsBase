@@ -3,33 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Material;
+use App\Models\Section;
 use App\Models\Tag;
+use App\Models\Like;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Laravel\Facades\Image;
+
 
 class MaterialController extends Controller
 {
-    public function showMainPage(Request $request) 
+    public function showMainPage(Request $request)
     {
-        $query = Material::with(['like', 'tag'])
-            ->public() // Только публичные материалы
-            ->withCount(['like as likes_sum' => function($query) {
-                $query->select(DB::raw('COALESCE(SUM(value), 0)'));
-            }]);
+        if (auth()->user()?->role == 'admin') {
+            $query = Material::with(['like', 'tag', 'section'])
+                ->withCount(['like as likes_sum' => function($query) {
+                    $query->select(DB::raw('COALESCE(SUM(value), 0)'));
+                }]);
+        }
+        else {
+            $query = Material::with(['like', 'tag', 'section'])
+                ->public()
+                ->withCount(['like as likes_sum' => function($query) {
+                    $query->select(DB::raw('COALESCE(SUM(value), 0)'));
+                }]);
+        }
 
-        // Поиск по названию
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where('title', 'like', "%{$search}%");
         }
 
-        // Фильтр по тегу
         if ($request->has('tag') && $request->tag != '') {
             $query->where('tag_id', $request->tag);
         }
 
-        // Сортировка
         switch ($request->get('sort', 'newest')) {
             case 'oldest':
                 $query->orderBy('date', 'asc');
@@ -43,21 +53,10 @@ class MaterialController extends Controller
                 break;
         }
 
-        $materials = $query->paginate(10); // Пагинация по 10 материалов
-        $tags = Tag::all(); // Все теги для фильтра
+        $materials = $query->paginate(10);
+        $tags = Tag::all();
 
         return view('pages.mainpage', compact('materials', 'tags'));
-    }
-
-    public function show($id)
-    {
-        $material = Material::with([
-        'like', 
-        'tag', 
-        'comment.user' 
-        ])->findOrFail($id);
-        
-        return view('pages.material', compact('material'));
     }
 
     public function create()
@@ -70,15 +69,20 @@ class MaterialController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'text' => 'required|string',
             'tag_id' => 'required|exists:tags,id',
             'isPrivate' => 'sometimes|boolean',
             'isDisabled' => 'sometimes|boolean',
+            'sections' => 'required|array|min:1',
+            'sections.*.type' => 'required|in:text,code,image',
+            'sections.*.order' => 'required|integer',
+            'sections.*.content' => 'required_if:sections.*.type,text,code',
+            'sections.*.language' => 'required_if:sections.*.type,code',
+            'sections.*.image' => 'required_if:sections.*.type,image|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'sections.*.image_alt' => 'nullable|string|max:255',
         ]);
 
-        Material::create([
+        $material = Material::create([
             'title' => $validated['title'],
-            'text' => $validated['text'],
             'tag_id' => $validated['tag_id'],
             'isPrivate' => $request->has('isPrivate'),
             'isDisabled' => $request->has('isDisabled'),
@@ -86,12 +90,48 @@ class MaterialController extends Controller
             'date' => now()->format('Y-m-d'),
         ]);
 
+        foreach ($request->sections as $sectionData) {
+            $section = new Section();
+            $section->type = $sectionData['type'];
+            $section->order = $sectionData['order'];
+            $section->material_id = $material->id;
+
+            if ($sectionData['type'] === 'text') {
+                $section->content = $sectionData['content'];
+            } elseif ($sectionData['type'] === 'code') {
+                $section->content = $sectionData['content'];
+                $section->language = $sectionData['language'];
+            } elseif ($sectionData['type'] === 'image') {
+                $section->setImageSmart($sectionData['image']);
+                $section->image_alt = $sectionData['image_alt'] ?? null;
+            }
+
+            $section->save();
+        }
+
         return redirect()->route('profile.show')->with('success', 'Материал успешно создан!');
+    }
+
+    public function show($id)
+    {
+        $material = Material::with([
+            'like', 
+            'tag', 
+            'section',
+            'comment.user'
+        ])->findOrFail($id);
+        
+        return view('pages.material', compact('material'));
     }
 
     public function edit($id)
     {
-        $material = Material::where('user_id', auth()->id())->findOrFail($id);
+        if (auth()->user()->role == 'admin') {
+            $material = Material::findOrFail($id);
+        }
+        else {
+            $material = Material::where('user_id', auth()->user()->id)->findOrFail($id);
+        }
         $tags = Tag::all();
         
         return view('pages.edit_material', compact('material', 'tags'));
@@ -99,37 +139,107 @@ class MaterialController extends Controller
 
     public function update(Request $request, $id)
     {
-        $material = Material::where('user_id', auth()->id())->findOrFail($id);
+        if (auth()->user()->role == 'admin') {
+            $material = Material::findOrFail($id);
+        }
+        else {
+            $material = Material::where('user_id', auth()->user()->id)->findOrFail($id);
+        }
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'text' => 'required|string',
             'tag_id' => 'required|exists:tags,id',
             'isPrivate' => 'sometimes|boolean',
             'isDisabled' => 'sometimes|boolean',
+            'sections' => 'required|array|min:1',
+            'sections.*.type' => 'required|in:text,code,image',
+            'sections.*.order' => 'required|integer',
+            'sections.*.content' => 'required_if:sections.*.type,text,code',
+            'sections.*.language' => 'required_if:sections.*.type,code',
+            'sections.*.image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'sections.*.image_alt' => 'nullable|string|max:255',
+            'sections.*.id' => 'sometimes|exists:sections,id',
         ]);
 
         $material->update([
             'title' => $validated['title'],
-            'text' => $validated['text'],
             'tag_id' => $validated['tag_id'],
             'isPrivate' => $request->has('isPrivate'),
             'isDisabled' => $request->has('isDisabled'),
         ]);
 
-        return redirect()->route('profile.show')->with('success', 'Материал успешно обновлен!');
+        $material->section()->delete();
+
+        foreach ($request->sections as $sectionData) {
+            $section = new Section();
+            $section->type = $sectionData['type'];
+            $section->order = $sectionData['order'];
+            $section->material_id = $material->id;
+
+            if ($sectionData['type'] === 'text') {
+                $section->content = $sectionData['content'];
+            } elseif ($sectionData['type'] === 'code') {
+                $section->content = $sectionData['content'];
+                $section->language = $sectionData['language'];
+            } elseif ($sectionData['type'] === 'image') {
+                if (isset($sectionData['image']) && $sectionData['image'] instanceof \Illuminate\Http\UploadedFile) {
+                    $section->setImageSmart($sectionData['image']);
+                } else {
+                    // Если изображение не загружено заново, но есть существующая секция
+                    if (isset($sectionData['id'])) {
+                        $existingSection = Section::find($sectionData['id']);
+                        if ($existingSection && $existingSection->isImage()) {
+                            $section->image_base64 = $existingSection->image_base64;
+                            $section->image_mime_type = $existingSection->image_mime_type;
+                            $section->image_name = $existingSection->image_name;
+                        }
+                    }
+                }
+                $section->image_alt = $sectionData['image_alt'] ?? null;
+            }
+
+            $section->save();
+        }
+
+        if (auth()->user()->role == 'admin') {
+            return redirect()->route('view.mainpage');
+        }
+        else {
+            return redirect()->route('profile.show')->with('success', 'Материал успешно обновлен!');
+        }
     }
 
     public function destroy($id)
     {
-        $material = Material::where('user_id', auth()->id())->findOrFail($id);
+        if (auth()->user()->role == 'admin') {
+            $material = Material::findOrFail($id);
+        }
+        else {
+            $material = Material::where('user_id', auth()->user()->id)->findOrFail($id);
+        }
         
-        // Удаляем связанные лайки и комментарии
         $material->like()->delete();
         $material->comment()->delete();
+        $material->section()->delete();
         
         $material->delete();
 
-        return redirect()->route('profile.show')->with('success', 'Материал успешно удален!');
+        if (auth()->user()->role == 'admin') {
+            return redirect()->route('view.mainpage');
+        }
+        else {
+            return redirect()->route('profile.show')->with('success', 'Материал успешно удалён!');
+        }
     }
+
+    public function showProfile()
+    {
+        $materials = Material::with(['like', 'tag', 'section'])
+            ->where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        return view('pages.profilepage', compact('materials'));
+    }
+
 }

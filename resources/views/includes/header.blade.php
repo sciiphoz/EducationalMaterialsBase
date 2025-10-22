@@ -14,9 +14,18 @@
         @endguest
         
         @auth
-            <div class="header-nav">
-                <a href="{{ route('view.mainpage') }}"">Главная</a>
+            <div class="header-main">
+                <div class="logo learnit">
+                    <span class="logo-text">Learn<span class="highlight">IT</span></span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="header-nav">
+                    <a href="{{ route('view.mainpage') }}"">Главная</a>
+                </div>
             </div>
+
             <div class="header-user">
                 @if (request()->routeIs('profile.show'))
                     <form action="{{ route('logout') }}" method="POST">
@@ -24,8 +33,15 @@
                         <button type="submit" class="logout-button">Выйти</button>
                     </form>
                 @else
-                    <img src="{{ asset('img/user.png') }}" alt="user">
-                    <a href="{{ route('profile.show') }}">{{ auth()->user()->name }}</a>
+                    @if (auth()->user()->role == "admin")
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="logout-button">Выйти</button>
+                        </form>
+                    @else 
+                        <img src="{{ asset('img/user.png') }}" alt="user">
+                        <a href="{{ route('profile.show') }}">{{ auth()->user()->name }}</a>
+                    @endif
                 @endif
             </div>
         @endauth

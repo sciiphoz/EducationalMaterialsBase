@@ -1,5 +1,6 @@
 @extends('template.app')
 @section('content')
+@section('title', 'Главная')
 @csrf
     <div class="page-content">
         <div class="search-filters">
@@ -40,8 +41,6 @@
                         @endif
                     </div>
                 </div>
-
-
             </form>
         </div>
 
@@ -59,13 +58,14 @@
                 $userLike = auth()->check() ? $material->like->where('user_id', auth()->id())->first() : null;
                 $userLikeValue = $userLike ? $userLike->value : 0;
                 
-                $previewText = Str::limit($material->text, 150, '...');
+                $firstTextSection = $material->section->where('type', 'text')->first();
+                $previewText = $firstTextSection ? Str::limit($firstTextSection->content, 150, '...') : 'Нет текстового содержимого';
             @endphp
             
             <div class="content">
                 <p class="content-date">{{ $material->date }}</p>
                 <a href="{{ route('material.show', $material->id) }}">
-                    <p class="content-name">{{ $material->title }}</p>
+                    <p class="content-title">{{ $material->title }}</p>
                 </a>
                 <div class="content-tag">
                     <p class="tag-name">{{ $material->tag->title ?? 'Без тега' }}</p>
@@ -88,12 +88,19 @@
                                     <img class="ui-dislike {{ $userLikeValue == -1 ? 'active-dislike' : '' }}" src="{{ asset('img/dislike.png') }}" alt="dislike">
                                 </button>
                             </form>
-                            <form action="{{ route('add.comment', $material->id) }}" method="post">
-                                @csrf
+                            <form action="{{ route('material.show', $material->id) }}">
                                 <button class="ui-submit_button" type="submit">
                                     <img class="ui-comment" src="{{ asset('img/comment.png') }}" alt="comment">
                                 </button>
                             </form>
+                            @if (auth()->user()->role == "admin")
+                                <form action="{{ route('material.edit', $material->id) }}" method="get">
+                                    @csrf
+                                    <button class="ui-submit_button" type="submit">
+                                        <img class="ui-edit" src="{{ asset('img/edit.png') }}" alt="edit">
+                                    </button>
+                                </form>
+                            @endif 
                         </div>
                     </div>
                 @endauth
@@ -109,10 +116,9 @@
             </div>
         @endforelse
 
-        {{-- Пагинация --}}
         @if($materials->hasPages())
-            <div class="pagination">
-                {{ $materials->links() }}
+            <div class="pagination-wrapper">
+                {{ $materials->links('vendor.pagination.default') }}
             </div>
         @endif
     </div>

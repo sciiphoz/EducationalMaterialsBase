@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('text');
             $table->date('date');
             $table->boolean('isPrivate')->default(false);
             $table->boolean('isDisabled')->default(false);

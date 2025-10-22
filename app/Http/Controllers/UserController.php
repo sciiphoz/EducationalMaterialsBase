@@ -12,7 +12,7 @@ class UserController extends Controller
     public function showProfile()
     {
         $materials = Material::with(['like', 'tag'])
-            ->where('user_id', auth()->id()) // Только материалы текущего пользователя
+            ->where('user_id', auth()->id()) 
             ->get();
         
         return view('pages.profilepage', compact('materials'));

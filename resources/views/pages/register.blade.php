@@ -1,5 +1,6 @@
 @extends('template.app')
 @section('content')
+@section('title', 'Регистрация')
 <div class="container">
     <div class="registration-form">
         <h1>Регистрация</h1>
