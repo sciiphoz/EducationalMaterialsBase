@@ -1,7 +1,6 @@
 @if ($paginator->hasPages())
     <nav class="pagination-container" role="navigation" aria-label="Pagination Navigation">
         <ul class="pagination-list">
-            {{-- Кнопка "Назад" --}}
             @if ($paginator->onFirstPage())
                 <li class="pagination-item disabled" aria-disabled="true">
                     <span class="pagination-link pagination-prev">
@@ -16,16 +15,13 @@
                 </li>
             @endif
 
-            {{-- Номера страниц --}}
             @foreach ($elements as $element)
-                {{-- Многоточие --}}
                 @if (is_string($element))
                     <li class="pagination-item disabled" aria-disabled="true">
                         <span class="pagination-link pagination-ellipsis">{{ $element }}</span>
                     </li>
                 @endif
 
-                {{-- Массив ссылок на страницы --}}
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
@@ -41,7 +37,6 @@
                 @endif
             @endforeach
 
-            {{-- Кнопка "Вперед" --}}
             @if ($paginator->hasMorePages())
                 <li class="pagination-item">
                     <a class="pagination-link pagination-next" href="{{ $paginator->nextPageUrl() }}" rel="next">
@@ -57,7 +52,6 @@
             @endif
         </ul>
         
-        {{-- Информация о страницах (опционально) --}}
         <div class="pagination-info">
             <p>
                 Показано с 

@@ -51,11 +51,9 @@
                 <label for="title">Название материала</label>
                 <input type="text" id="title" name="title" value="{{ old('title') }}" required>
 
-                {{-- Секции материала --}}
                 <div class="sections-container">
                     <h3>Секции материала</h3>
                     <div id="sections-list">
-                        {{-- Секции будут добавляться здесь динамически --}}
                     </div>
                     
                     <div class="section-actions">
@@ -70,7 +68,6 @@
         </div>
     </div>
 
-    {{-- Шаблон для секции --}}
     <template id="section-template">
         <div class="section-item" data-type="{type}" data-order="{order}">
             <div class="section-header">
@@ -86,126 +83,6 @@
         </div>
     </template>
 
-    <style>
-        .sections-container {
-            margin: 30px 0;
-        }
-
-        .section-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .add-section-btn {
-            background: #35B56B;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .add-section-btn:hover {
-            background: #2a8d55;
-        }
-
-        .section-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            background: #f9f9f9;
-        }
-
-        .section-header {
-            background: #e9ecef;
-            padding: 10px 15px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .section-type {
-            font-weight: bold;
-            color: #495057;
-        }
-
-        .section-order {
-            color: #6c757d;
-            font-size: 12px;
-        }
-
-        .remove-section-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .remove-section-btn:hover {
-            background: #c0392b;
-        }
-
-        .section-content {
-            padding: 15px;
-        }
-
-        .section-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            font-family: inherit;
-        }
-
-        .section-code {
-            font-family: 'Courier New', monospace;
-        }
-
-        .section-language {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .image-preview {
-            max-width: 200px;
-            max-height: 150px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
-
-        .image-upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        .image-upload-area:hover {
-            border-color: #35B56B;
-        }
-
-        .image-upload-area.dragover {
-            border-color: #35B56B;
-            background: #f0fff4;
-        }
-    </style>
-
     <script>
         let sectionCount = 0;
 
@@ -213,7 +90,6 @@
             const sectionsList = document.getElementById('sections-list');
             const sectionTemplate = document.getElementById('section-template');
             
-            // Добавление секции
             document.querySelectorAll('.add-section-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     addSection(this.dataset.type);
@@ -274,13 +150,11 @@
                 sectionElement.innerHTML = sectionHtml;
                 sectionsList.appendChild(sectionElement.firstElementChild);
 
-                // Drag and drop для изображений
                 if (type === 'image') {
                     setupImageDrop(sectionCount);
                 }
             }
 
-            // Удаление секции
             sectionsList.addEventListener('click', function(e) {
                 if (e.target.classList.contains('remove-section-btn')) {
                     e.target.closest('.section-item').remove();

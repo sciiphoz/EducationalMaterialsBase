@@ -13,7 +13,6 @@
 
         <hr>
 
-        {{-- Вывод материалов пользователя --}}
         @forelse($materials as $material)
             @php
                 $likesum = $material->like->sum('value');

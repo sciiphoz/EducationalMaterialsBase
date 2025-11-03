@@ -135,7 +135,6 @@
             const sectionsList = document.getElementById('sections-list');
             const sectionTemplate = document.getElementById('section-template');
             
-            // Добавление секции
             document.querySelectorAll('.add-section-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     addSection(this.dataset.type);
@@ -196,13 +195,11 @@
                 sectionElement.innerHTML = sectionHtml;
                 sectionsList.appendChild(sectionElement.firstElementChild);
 
-                // Drag and drop для изображений
                 if (type === 'image') {
                     setupImageDrop(sectionCount);
                 }
             }
 
-            // Удаление секции
             sectionsList.addEventListener('click', function(e) {
                 if (e.target.classList.contains('remove-section-btn')) {
                     e.target.closest('.section-item').remove();

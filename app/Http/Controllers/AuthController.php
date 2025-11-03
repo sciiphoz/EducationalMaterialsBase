@@ -14,6 +14,11 @@ class AuthController extends Controller
         return view('pages.register');
     }
 
+        public function showLoginForm()
+    {
+        return view('pages.login');
+    }
+
     public function register(Request $request)
     {
         $credentials = $request->validate( [
@@ -25,11 +30,6 @@ class AuthController extends Controller
         User::create($credentials);
 
         return redirect()->route('view.login');
-    }
-
-    public function showLoginForm()
-    {
-        return view('pages.login');
     }
 
     public function login(Request $request)

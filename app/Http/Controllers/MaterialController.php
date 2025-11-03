@@ -185,7 +185,6 @@ class MaterialController extends Controller
                 if (isset($sectionData['image']) && $sectionData['image'] instanceof \Illuminate\Http\UploadedFile) {
                     $section->setImageSmart($sectionData['image']);
                 } else {
-                    // Если изображение не загружено заново, но есть существующая секция
                     if (isset($sectionData['id'])) {
                         $existingSection = Section::find($sectionData['id']);
                         if ($existingSection && $existingSection->isImage()) {

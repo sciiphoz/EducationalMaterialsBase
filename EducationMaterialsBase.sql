@@ -659,16 +659,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'CodeWizard', 'ivan@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(2, 'ByteNinja', 'maria@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(3, 'DevGuru', 'alex@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(4, 'PixelPusher', 'ekaterina@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(5, 'DataDriven', 'dmitry@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(6, 'FrontendMaster', 'anna@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(7, 'CloudBuilder', 'sergey@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(8, 'BackendPro', 'olga@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(9, 'VueVirtuoso', 'pavel@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
-(10, 'SysAdmin', 'natalia@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03');
+(1, 'CodeWizard', 'ivan@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(2, 'ByteNinja', 'maria@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(3, 'DevGuru', 'alex@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(4, 'PixelPusher', 'ekaterina@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(5, 'DataDriven', 'dmitry@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(6, 'FrontendMaster', 'anna@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(7, 'CloudBuilder', 'sergey@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(8, 'BackendPro', 'olga@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(9, 'VueVirtuoso', 'pavel@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03'),
+(10, 'SysAdmin', 'natalia@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', '2025-10-21 08:09:03', NULL, '2025-10-21 08:09:03', '2025-10-21 08:09:03');
 
 --
 -- Индексы сохранённых таблиц

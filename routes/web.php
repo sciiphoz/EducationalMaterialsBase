@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/', [MaterialController::class, 'showMainPage'])->name('view.mainpage');
+Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('material.show');
 
 Route::middleware('check.guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('view.register');
@@ -21,8 +22,6 @@ Route::middleware('check.guest')->group(function () {
 Route::middleware('check.auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::get('/materials/{id}', [MaterialController::class, 'show'])->name('material.show');
-
     Route::post('/material/{id}/like', [LikeController::class, 'addLike'])->name('add.like');
     Route::post('/material/{id}/dislike', [LikeController::class, 'addDislike'])->name('add.dislike');
     Route::post('/material/{id}/comment', [CommentController::class, 'addComment'])->name('add.comment');
@@ -40,6 +39,6 @@ Route::middleware('check.auth')->group(function () {
 
 
 Route::middleware('check.admin')->group(function () {    
-    
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
     

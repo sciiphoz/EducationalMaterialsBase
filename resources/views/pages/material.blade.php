@@ -16,7 +16,7 @@
             <div class="material-meta">
                 <span class="material-date">{{ $material->date }}</span>
                 <span class="material-tag">{{ $material->tag->title ?? 'Без тега' }}</span>
-                @if($material->isDisabled)
+                @if($material->is_private)
                     <span class="material-private">🔒 Приватный</span>
                 @endif
             </div>
@@ -71,7 +71,6 @@
             @endauth
         </div>
 
-        {{-- Комментарии --}}
         @if(!$material->isDisabled)
             <div class="comment-section">
                 <h4>Комментарии ({{ $material->comment->count() }})</h4>
@@ -92,13 +91,26 @@
                     </p>
                 @endauth
 
-                {{-- Список комментариев --}}
                 <div class="comment-items">
                     @forelse($material->comment as $comment)
-                        <div class="comment-item">
-                            <div class="comment-user">
-                                <img src="{{ asset('img/user.png') }}" alt="icon" class="comment-icon">
-                                <p class="comment-name">{{ $comment->user->name ?? 'Пользователь' }}</p>
+                        <div class="comment-item" id="comment-{{ $comment->id }}">
+                            <div class="comment-header">
+                                <div class="comment-user">
+                                    <img src="{{ asset('img/user.png') }}" alt="icon" class="comment-icon">
+                                    <p class="comment-name">{{ $comment->user->name ?? 'Пользователь' }}</p>
+                                </div>
+                                
+                                @auth
+                                    @if(auth()->user()->role === "admin" || auth()->id() === $comment->user_id)
+                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="comment-delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="comment-delete-btn" onclick="return confirm('Удалить этот комментарий?')">
+                                                ×
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endauth
                             </div>
                             
                             <p class="comment-text">{{ $comment->text }}</p>
@@ -119,4 +131,26 @@
             </div>
         @endif
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteForms = document.querySelectorAll('.comment-delete-form');
+            
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    if (!confirm('Вы уверены, что хотите удалить этот комментарий?')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    const commentItem = this.closest('.comment-item');
+                    commentItem.style.animation = 'commentRemove 0.3s ease-out forwards';
+                    
+                    setTimeout(() => {
+                        commentItem.remove();
+                    }, 300);
+                });
+            });
+        });
+    </script>
 @endsection

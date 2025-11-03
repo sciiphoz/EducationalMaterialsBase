@@ -23,4 +23,17 @@ class CommentController extends Controller
 
         return redirect()->back()->with('success', 'Комментарий добавлен');
     }
+
+        public function destroy($id)
+    {
+        $comment = Comment::findOrFail($id);
+        
+        if (Auth::user()->role === "admin" || Auth::id() === $comment->user_id) {
+            $comment->delete();
+            
+            return redirect()->back()->with('success', 'Комментарий удален');
+        }
+        
+        return redirect()->back()->with('error', 'У вас нет прав для удаления этого комментария');
+    }
 }

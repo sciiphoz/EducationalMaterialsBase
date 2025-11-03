@@ -2,9 +2,18 @@
     <div class="container">
         @guest
             <div class="header-ui">
-                <div class="header-nav">
-                    <a href="{{ route('view.mainpage') }}"">Главная</a>
+                <div class="header-main">
+                    <div class="logo learnit">
+                        <span class="logo-text">Learn<span class="highlight">IT</span></span>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="header-nav">
+                        <a href="{{ route('view.mainpage') }}"">Главная</a>
+                    </div>
                 </div>
+
                 <div class="header-user">
                     <a class="registration-button" href="{{ route('view.login') }}">Войти</a>
 
