@@ -949,6 +949,10 @@ body {
     transform: scale(1.1);
 }
 
+.invalid-feedback {
+    color: white;
+}
+
 .comment-item {
     position: relative;
     padding: 15px;

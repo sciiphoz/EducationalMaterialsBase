@@ -88,7 +88,7 @@
                                         </div>
                                         <input type="hidden" name="sections[{{ $section->order }}][id]" value="{{ $section->id }}">
                                     @elseif($section->isImage())
-                                        <div class="image-upload-area" onclick="document.getElementById('image-{{ $section->order }}').click()">
+                                        <div class="image-upload-area" onclick="handleImageAreaClick({{ $section->order }})">
                                             <p>Нажмите для загрузки нового скриншота или перетащите файл</p>
                                             <input type="file" id="image-{{ $section->order }}" name="sections[{{ $section->order }}][image]" accept="image/*" style="display: none;" onchange="handleImageUpload(this, {{ $section->order }})">
                                             <div id="image-preview-{{ $section->order }}">
@@ -97,7 +97,13 @@
                                                     <p>Текущее изображение: {{ $section->image_name }}</p>
                                                 @endif
                                             </div>
-                                            <input type="text" name="sections[{{ $section->order }}][image_alt]" placeholder="Описание изображения (необязательно)" value="{{ $section->image_alt }}" style="width: 100%; margin-top: 10px; padding: 5px;">
+                                            <input type="text" 
+                                                   name="sections[{{ $section->order }}][image_alt]" 
+                                                   placeholder="Описание изображения (необязательно)" 
+                                                   value="{{ $section->image_alt }}" 
+                                                   style="width: 100%; margin-top: 10px; padding: 5px;"
+                                                   onclick="event.stopPropagation()"
+                                                   onfocus="event.stopPropagation()">
                                             <input type="hidden" name="sections[{{ $section->order }}][id]" value="{{ $section->id }}">
                                         </div>
                                     @endif
@@ -131,9 +137,25 @@
     <script>
         let sectionCount = {{ $material->section->count() }};
 
+        // Шаблон для новой секции
+        const sectionTemplate = document.createElement('template');
+        sectionTemplate.innerHTML = `
+            <div class="section-item" data-type="{type}" data-order="{order}">
+                <div class="section-header">
+                    <span class="section-type">{typeTitle}</span>
+                    <span class="section-order">#{order}</span>
+                    <button type="button" class="remove-section-btn">×</button>
+                </div>
+                <div class="section-content">
+                    {content}
+                </div>
+                <input type="hidden" name="sections[{order}][type]" value="{type}">
+                <input type="hidden" name="sections[{order}][order]" value="{order}">
+            </div>
+        `;
+
         document.addEventListener('DOMContentLoaded', function() {
             const sectionsList = document.getElementById('sections-list');
-            const sectionTemplate = document.getElementById('section-template');
             
             document.querySelectorAll('.add-section-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -175,11 +197,16 @@
                         break;
                     case 'image':
                         content = `
-                            <div class="image-upload-area" onclick="document.getElementById('image-${sectionCount}').click()">
+                            <div class="image-upload-area" onclick="handleImageAreaClick(${sectionCount})">
                                 <p>Нажмите для загрузки скриншота или перетащите файл</p>
                                 <input type="file" id="image-${sectionCount}" name="sections[${sectionCount}][image]" accept="image/*" style="display: none;" onchange="handleImageUpload(this, ${sectionCount})">
                                 <div id="image-preview-${sectionCount}"></div>
-                                <input type="text" name="sections[${sectionCount}][image_alt]" placeholder="Описание изображения (необязательно)" style="width: 100%; margin-top: 10px; padding: 5px;">
+                                <input type="text" 
+                                       name="sections[${sectionCount}][image_alt]" 
+                                       placeholder="Описание изображения (необязательно)" 
+                                       style="width: 100%; margin-top: 10px; padding: 5px;"
+                                       onclick="event.stopPropagation()"
+                                       onfocus="event.stopPropagation()">
                             </div>
                         `;
                         break;
@@ -198,6 +225,18 @@
                 if (type === 'image') {
                     setupImageDrop(sectionCount);
                 }
+            }
+
+            // Функция для обработки клика на области загрузки изображения
+            window.handleImageAreaClick = function(order) {
+                // Проверяем, был ли клик по полю ввода описания
+                const event = window.event;
+                if (event && event.target && event.target.type === 'text') {
+                    return; // Не открываем диалог выбора файла
+                }
+                
+                // Открываем диалог выбора файла
+                document.getElementById(`image-${order}`).click();
             }
 
             sectionsList.addEventListener('click', function(e) {
@@ -281,12 +320,6 @@
                     document.getElementById('delete-form').submit();
                 }
             });
-
-            function confirmDelete() {
-                if (confirm('Вы уверены, что хотите удалить этот материал? Это действие нельзя отменить.')) {
-                    document.getElementById('delete-form').submit();
-                }
-            }
         });
     </script>
 @endsection

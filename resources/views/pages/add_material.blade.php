@@ -86,6 +86,18 @@
     <script>
         let sectionCount = 0;
 
+        // Функция для обработки клика на области загрузки изображения
+        function handleImageAreaClick(order) {
+            // Проверяем, был ли клик по полю ввода описания
+            const event = window.event;
+            if (event && event.target && event.target.type === 'text') {
+                return; // Не открываем диалог выбора файла
+            }
+            
+            // Открываем диалог выбора файла
+            document.getElementById(`image-${order}`).click();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const sectionsList = document.getElementById('sections-list');
             const sectionTemplate = document.getElementById('section-template');
@@ -130,11 +142,16 @@
                         break;
                     case 'image':
                         content = `
-                            <div class="image-upload-area" onclick="document.getElementById('image-${sectionCount}').click()">
+                            <div class="image-upload-area" onclick="handleImageAreaClick(${sectionCount})">
                                 <p>Нажмите для загрузки скриншота или перетащите файл</p>
                                 <input type="file" id="image-${sectionCount}" name="sections[${sectionCount}][image]" accept="image/*" style="display: none;" onchange="handleImageUpload(this, ${sectionCount})" required>
                                 <div id="image-preview-${sectionCount}"></div>
-                                <input type="text" name="sections[${sectionCount}][image_alt]" placeholder="Описание изображения (необязательно)" style="width: 100%; margin-top: 10px; padding: 5px;">
+                                <input type="text" 
+                                       name="sections[${sectionCount}][image_alt]" 
+                                       placeholder="Описание изображения (необязательно)" 
+                                       style="width: 100%; margin-top: 10px; padding: 5px;"
+                                       onclick="event.stopPropagation()"
+                                       onfocus="event.stopPropagation()">
                             </div>
                         `;
                         break;
