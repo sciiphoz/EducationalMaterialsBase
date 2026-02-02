@@ -45,7 +45,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Ошибка авторизации'
+            'email' => 'Почта и/или пароль неверны.'
         ]);
     }
 

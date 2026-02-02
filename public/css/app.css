@@ -523,12 +523,13 @@ body {
 }
 
 .search-results-info {
-    background: #e3f2fd;
+    background: transparent;
     padding: 10px 15px;
     border-radius: 4px;
     margin-bottom: 20px;
-    color: #1976d2;
-    font-weight: 500;
+    color: #35B56B;
+    font-weight: 600;
+    font-size: 18px;
 }
 
 .empty-results {
